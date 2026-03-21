@@ -227,6 +227,27 @@ def run_skfolio_analysis(prices_df, config):
                 textcoords="offset points"
             )
 
+        # Suggested portfolio (optimized)
+        port_ret = (X_train @ model.weights_).mean() * ann_factor
+        port_risk = (X_train @ model.weights_).std() * (ann_factor ** 0.5)
+
+        plt.scatter(
+            port_risk,
+            port_ret,
+            s=180,
+            c="red",
+            marker="X",
+            label="Optimized portfolio"
+        )
+        plt.annotate(
+            "Portfolio",
+            (port_risk, port_ret),
+            fontsize=10,
+            fontweight="bold",
+            xytext=(6, -10),
+            textcoords="offset points"
+        )
+
         plt.xlabel("Annualized Risk (Volatility)")
         plt.ylabel("Annualized Return")
         plt.title("Asset Risk/Reward Scatter")

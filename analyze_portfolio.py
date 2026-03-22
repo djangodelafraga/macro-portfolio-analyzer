@@ -240,7 +240,7 @@ def run_skfolio_analysis(prices_df, config):
             plt.annotate(
                 asset,
                 (row["Risk"], row["Return"]),
-                fontsize=9,
+                fontsize=6,
                 xytext=(5, 5),
                 textcoords="offset points"
             )

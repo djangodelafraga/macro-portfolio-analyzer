@@ -1,61 +1,68 @@
-# macro-portfolio-analyzer
+# Macro Portfolio Analyzer
 
-A simple Python project for downloading macro market proxy data, running portfolio optimization, and generating portfolio charts.
+Download macro ETF/index data, build a portfolio, and generate performance charts.
 
-## Overview
+## Files
 
-This project does two things:
+- `get_macro_index.py` — download/update market data
+- `analyze_portfolio.py` — run portfolio analysis and save charts
+- `config.toml` — analysis settings (frequency, goals, weights, assets)
+- `tickers.json` — list of tickers and friendly names
+- `requirements.txt` — Python dependencies
+- `installation.py` — automated setup script (Windows)
+- `install_and_run.bat` — one-click installer for Windows
+- `run_analysis.bat` — one-click analysis for Windows
 
-1. Downloads macro ETF/index proxy data and stores it as CSV files.
-2. Runs a portfolio analysis on those assets and creates charts.
+---
 
-The analysis is performed on **returns**, not on raw price levels.
+## Windows usage (for non-technical users)
 
-## Project files
+### 1. Install Python
 
-- `get_macro_index.py` — downloads and updates market data
-- `analyze_portfolio.py` — runs the portfolio analysis and creates charts
-- `config.toml` — configuration file for analysis settings
-- `requirements.txt` — required Python packages
+1. Download Python 3.10+ from:  
+   https://www.python.org/downloads/
+2. During install, check **“Add Python to PATH”**.
 
-## Output
+### 2. Install the app
 
-Running the analysis can create the following files:
+1. Unzip the project folder (e.g. `macro-portfolio-analyzer`).
+2. Open the folder.
+3. Double‑click `install_and_run.bat`.
+4. Wait until it finishes (it will:
+   - create a virtual environment,
+   - install dependencies,
+   - run `get_macro_index.py` once).
 
-- `1_backtest.png` — cumulative portfolio performance
-- `2_weights.png` — portfolio allocation weights
-- `3_risk.png` — risk contribution chart
-- `4_asset_risk_reward.png` — asset risk vs reward scatter plot
+### 3. Run the analysis
 
-## Requirements
+After installation:
 
-You need:
+1. Double‑click `run_analysis.bat`.
+2. When it finishes, you should see:
 
-- Python 3.10 or newer
-- Internet connection
-- Terminal / Command Prompt / PowerShell
-- The project files in one folder
+   - `1_backtest.png`
+   - `2_weights.png`
+   - `3_risk.png`
+   - `4_asset_risk_reward.png`
 
-## Installation
+   in the project folder.
 
-Open Command Prompt or PowerShell in the project folder.
-```text
-cd C:\path\to\your\project
+---
 
-Create a virtual environment:
-```text
-python -m venv .venv
+## Linux usage (for technical users)
 
-Activate it in Command Prompt:
-```text
-.venv\Scripts\activate
+    In a terminal, from the project folder:
 
-Install dependencies:
-```text
-python -m pip install -r requirements.txt
+    ```bash
+    python3 -m venv .venv
+    source .venv/bin/activate
+    python3 -m pip install -r requirements.txt
+    python3 get_macro_index.py
+    python3 analyze_portfolio.py
+    ---
 
+## Configuration
 
-Configuration
 Edit config.toml before running the analysis.
 Main settings
     analysis_frequency
@@ -81,39 +88,10 @@ Main settings
     train_size
         fraction of the dataset used for training
 
-Step 1: Download market data
-Before running the analysis, download the CSV files.
-
-```text
-python get_macro_index.py
-
-This creates data files inside: "candles/macro/"
-
-Step 2: Run the analysis
-After the data has been downloaded:
-
-```text
-python analyze_portfolio.py
-
-The script will:
-    load the downloaded CSV files
-    resample prices to daily or weekly data
-    convert prices into returns
-    optimize the portfolio
-    generate charts
-
-Typical workflow
-
-```text
-cd C:\path\to\your\project
-.venv\Scripts\activate
-python get_macro_index.py
-python analyze_portfolio.py
-
-Notes
+## Notes
     Running the scripts again updates the data and overwrite existing chart files.
     The portfolio analysis uses returns, not absolute prices.
     If image export fails, reinstall the packages from requirements.txt.
 
-Disclaimer
-This project is for research and educational use only. It is not financial advice.
+## Disclaimer
+    This project is for research and educational use only. It is not financial advice.

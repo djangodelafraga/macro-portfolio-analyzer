@@ -21,7 +21,7 @@ risk_aversion = 1.0
 
 # Allocation bounds per asset
 min_weight = 0.01
-max_weight = 0.1
+max_weight = 0.4
 
 # Asset universe behavior:
 # true  -> use all discovered assets, then remove exclude_assets
@@ -29,9 +29,7 @@ max_weight = 0.1
 
 use_all_assets = true
 include_assets = []
-exclude_assets = [
-    "GLD":  "SPDR_Gold_Share"
-]
+exclude_assets = ["SPDR_Gold_Share"]
 
 train_size = 0.7
 

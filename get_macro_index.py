@@ -1,7 +1,7 @@
 import os
 import time
 from datetime import timedelta
-
+import json
 import pandas as pd
 import yfinance as yf
 
@@ -9,20 +9,10 @@ import yfinance as yf
 # This ensures data is saved in your project folder under 'candles/macro'
 SRC_DIR = os.path.dirname(os.path.abspath(__file__))
 OUTPUT_DIR = os.path.join(SRC_DIR, "candles", "macro")
+TICKERS_PATH = "tickers.json"
+
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-# Using tradeable ETF proxies for macro indices
-MACRO_TICKERS = {
-    "SPY": "S&P500",
-    "QQQ": "NASDAQ",
-    "IWM": "RUSSELL2000",
-    "VGK": "EUROPE_STOCKS",
-    "GLD": "GOLD",
-    "TLT": "LONG_TREASURY",
-    "UUP": "US_DOLLAR",
-    "DBC": "COMMODITIES",
-    "HYG": "HIGH_YIELD_BOND"
-}
 
 # Constants
 INTERVAL = "1h"
@@ -30,6 +20,13 @@ PERIOD = "730d"  # Yahoo/yfinance hourly history is limited; keep as fallback
 ROLLING_DAYS = 150  # Fetch a recent window each run, then merge/dedup locally
 OVERLAP_HOURS = 6  # Re-fetch last few hours to handle revisions/partial candle
 DELAY_SECONDS = 2
+
+def load_tickers() -> dict:
+    if not os.path.exists(TICKERS_PATH):
+        raise FileNotFoundError(f"Tickers file not found: {TICKERS_PATH}")
+    with open(TICKERS_PATH, "r") as f:
+        tickers = json.load(f)
+    return tickers
 
 def csv_path(name: str) -> str:
     os.makedirs(OUTPUT_DIR, exist_ok=True)
@@ -150,6 +147,7 @@ def sync_symbol(symbol: str, name: str):
     print(f"[✓] Synced & saved {name} -> {csv_path(name)} (rows={len(out)})")
 
 if __name__ == "__main__":
+    MACRO_TICKERS = load_tickers()
     print(f"\n🚀 Starting sync for {len(MACRO_TICKERS)} macro indicators...")
 
     for i, (symbol, name) in enumerate(MACRO_TICKERS.items()):
@@ -157,8 +155,8 @@ if __name__ == "__main__":
         try:
             sync_symbol(symbol, name)
         except Exception as e:
-            print(f"[!] {name} failed: {e}")
-        
+            print(f"[!] {name} failed: {e}")            
         time.sleep(DELAY_SECONDS)
 
     print("\n🎉 All macro syncs complete!")
+

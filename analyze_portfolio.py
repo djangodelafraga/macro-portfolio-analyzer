@@ -3,15 +3,15 @@ import glob
 import tomllib
 import pandas as pd
 import matplotlib.pyplot as plt
-
+import json
 from skfolio import Population
 from skfolio.optimization import MeanRisk, ObjectiveFunction, EqualWeighted
 from skfolio.measures import RiskMeasure
 from skfolio.preprocessing import prices_to_returns
 
-
 CONFIG_PATH = "config.toml"
 DATA_PATH = "candles/macro/*.csv"
+TICKERS_PATH = "tickers.json"
 
 
 def load_config():
@@ -91,10 +91,24 @@ def resolve_risk_measure(name):
 
     return mapping[name]
 
+def load_tickers() -> dict:
+    if not os.path.exists(TICKERS_PATH):
+        raise FileNotFoundError(f"{TICKERS_PATH} not found.")
+
+    with open(TICKERS_PATH, "r") as f:
+        tickers = json.load(f)
+
+    if not isinstance(tickers, dict) or not tickers:
+        raise ValueError("tickers.json must contain a non-empty dictionary.")
+
+    return tickers
+
 
 def load_resampled_data(config):
     frequency = config["analysis_frequency"]
     all_files = glob.glob(DATA_PATH)
+    tickers = load_tickers()
+    allowed_asset_names = set(tickers.values())
 
     if not all_files:
         print(f"Error: No CSV files found in {DATA_PATH}. Run get_macro_index.py first!")
@@ -104,6 +118,10 @@ def load_resampled_data(config):
 
     for filename in all_files:
         asset_name = os.path.basename(filename).replace("_1h.csv", "").replace(".csv", "")
+
+        if asset_name not in allowed_asset_names:
+            print(f"Skipping {filename}: not listed in tickers.json")
+            continue
 
         df = pd.read_csv(filename)
 

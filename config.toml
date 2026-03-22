@@ -1,7 +1,7 @@
 analysis_frequency = "D"
 # D = Daily OR W = Weekly
 
-portfolio_goal = "min_risk"
+portfolio_goal = "max_sharpe"
 # Portfolio goal options:
 # max_sharpe
 # max_ratio
@@ -20,8 +20,8 @@ risk_measure = "semi_variance"
 risk_aversion = 1.0
 
 # Allocation bounds per asset
-min_weight = 0.02
-max_weight = 0.3
+min_weight = 0.01
+max_weight = 0.1
 
 # Asset universe behavior:
 # true  -> use all discovered assets, then remove exclude_assets
@@ -29,7 +29,9 @@ max_weight = 0.3
 
 use_all_assets = true
 include_assets = []
-exclude_assets = []
+exclude_assets = [
+    "GLD":  "SPDR_Gold_Share"
+]
 
 train_size = 0.7
 

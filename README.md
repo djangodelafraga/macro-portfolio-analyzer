@@ -44,7 +44,7 @@ cd C:\path\to\your\project
 
 Create a virtual environment:
 ```text
-py -m venv .venv
+python -m venv .venv
 
 Activate it in Command Prompt:
 ```text
@@ -52,7 +52,7 @@ Activate it in Command Prompt:
 
 Install dependencies:
 ```text
-py -m pip install -r requirements.txt
+python -m pip install -r requirements.txt
 
 
 Configuration
@@ -85,7 +85,7 @@ Step 1: Download market data
 Before running the analysis, download the CSV files.
 
 ```text
-py get_macro_index.py
+python get_macro_index.py
 
 This creates data files inside: "candles/macro/"
 

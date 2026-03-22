@@ -18,7 +18,7 @@
   "LQD":  "iShares_LQD",
   "BND":  "Vanguard_Bond",
   "GLD":  "SPDR_Gold_Share",
-  "VIX":  "CBOE_VIX",
+  "^VIX": "CBOE_VIX",
   "XLE":  "Energy_Select_Sector_SPDR",
   "XLF":  "Financial_Select_Sector_SPDR",
   "XLY":  "Consumer_Discretionary_Select_Sector_SPDR"

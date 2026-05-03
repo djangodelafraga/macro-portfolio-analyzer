@@ -1,7 +1,11 @@
+# source .venv/bin/activate
+# python get_macro_index.py
+# python analyze_portfolio.py
+
 analysis_frequency = "D"
 # D = Daily OR W = Weekly
 
-portfolio_goal = "max_sharpe"
+portfolio_goal = "min_risk"
 # Portfolio goal options:
 # max_sharpe
 # max_ratio
@@ -9,19 +13,18 @@ portfolio_goal = "max_sharpe"
 # max_return
 # max_utility
 
-risk_measure = "semi_variance"
+risk_measure = "standard_deviation"
 # Risk measure options:
 # "variance"
 # "standard_deviation"
 # "semi_variance"
-# "annualized_variance"
 
 # Used only when portfolio_goal = "max_utility"
-risk_aversion = 1.0
+risk_aversion = 5
 
 # Allocation bounds per asset
-min_weight = 0.01
-max_weight = 0.4
+min_weight = 0.0
+max_weight = 1
 
 # Asset universe behavior:
 # true  -> use all discovered assets, then remove exclude_assets
@@ -29,9 +32,9 @@ max_weight = 0.4
 
 use_all_assets = true
 include_assets = []
-exclude_assets = ["SPDR_Gold_Share"]
+exclude_assets = ["CBOE_VIX", "CBOE_VIX_Short_Term", "CBOE_VIX_Mid_Term", "WisdomTree_India"]
 
-train_size = 0.7
+train_size = 0.9
 
 [annualization_factor]
 D = 252

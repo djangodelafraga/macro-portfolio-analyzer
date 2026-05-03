@@ -15,10 +15,10 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 
 # Constants
-INTERVAL = "1h"
-PERIOD = "730d"  # Yahoo/yfinance hourly history is limited; keep as fallback
-ROLLING_DAYS = 150  # Fetch a recent window each run, then merge/dedup locally
-OVERLAP_HOURS = 6  # Re-fetch last few hours to handle revisions/partial candle
+INTERVAL = "1d"
+PERIOD = "max"  # Yahoo/yfinance hourly history is limited; keep as fallback
+ROLLING_DAYS = 365  # Fetch a recent window each run, then merge/dedup locally
+OVERLAP_DAYS = 5  # Re-fetch last few days to handle revisions/partial candle
 DELAY_SECONDS = 2
 
 def load_tickers() -> dict:
@@ -129,7 +129,7 @@ def sync_symbol(symbol: str, name: str):
         out = new
     else:
         last_ts = old["Datetime"].max()
-        start = (last_ts - timedelta(hours=OVERLAP_HOURS)).to_pydatetime()
+        start = (last_ts - timedelta(days=OVERLAP_DAYS)).to_pydatetime()
 
         # Use start-based download first
         new = download_yfinance(symbol, name, start=start)

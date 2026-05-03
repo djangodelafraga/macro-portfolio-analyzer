@@ -38,7 +38,7 @@ def create_venv():
 
 
 def get_venv_python():
-    python_path = VENV_DIR / "Scripts" / "python.exe"
+    python_path = VENV_DIR / "bin" / "python"
     if not python_path.exists():
         raise FileNotFoundError(f"Venv Python not found: {python_path}")
     return python_path

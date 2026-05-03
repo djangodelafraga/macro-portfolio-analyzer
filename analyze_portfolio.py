@@ -117,7 +117,7 @@ def load_resampled_data(config):
     assets = []
 
     for filename in all_files:
-        asset_name = os.path.basename(filename).replace("_1h.csv", "").replace(".csv", "")
+        asset_name = os.path.basename(filename).replace("_1d.csv", "").replace(".csv", "")
 
         if asset_name not in allowed_asset_names:
             print(f"Skipping {filename}: not listed in tickers.json")

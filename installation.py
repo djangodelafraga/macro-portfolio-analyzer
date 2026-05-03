@@ -38,7 +38,11 @@ def create_venv():
 
 
 def get_venv_python():
-    python_path = VENV_DIR / "Scripts" / "python.exe"
+    if os.name == "nt":
+        python_path = VENV_DIR / "Scripts" / "python.exe"
+    else:
+        python_path = VENV_DIR / "bin" / "python"
+
     if not python_path.exists():
         raise FileNotFoundError(f"Venv Python not found: {python_path}")
     return python_path
@@ -58,10 +62,6 @@ def first_data_download(venv_python):
 
 
 def main():
-    if os.name != "nt":
-        print("Warning: this installer is designed for Windows.")
-        print("It may still work elsewhere, but it uses Windows-oriented defaults.")
-
     check_required_files()
     create_venv()
     venv_python = get_venv_python()
@@ -70,7 +70,10 @@ def main():
 
     print("\nInstallation completed successfully.")
     print("You can now run the analysis with:")
-    print(r".venv\Scripts\python.exe analyze_portfolio.py")
+    if os.name == "nt":
+        print(r".venv\Scripts\python.exe analyze_portfolio.py")
+    else:
+        print("./.venv/bin/python analyze_portfolio.py")
 
 
 if __name__ == "__main__":
